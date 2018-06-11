@@ -1,0 +1,88 @@
+@import "../../styles/_colors.styl"
+@import "../../styles/_elevation.styl"
+
+.bp-button
+    position: relative
+
+    font-family: Roboto
+    font-stretch: 100%
+    font-size: 14px
+    font-weight: 500
+    line-height: 36px
+
+    border: none
+    background: none
+    outline: none
+
+    cursor: pointer
+
+    min-width: 88px
+    padding: 0 16px
+    overflow: hidden;
+
+    border-radius: 2px
+
+    -webkit-tap-highlight-color: transparent
+
+    &:hover .bp-button-background
+        opacity: 1
+
+.bp-button-background
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+
+    opacity: 0
+    transition: opacity .2s ease-in
+
+.bp-button-ripple
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    opacity: 0
+    width: 0
+    height: 0
+    border-radius: 50%
+
+    &.active
+        animation: bp-ripple .3s ease-in
+
+
+_bp-button-styled($name, $color, $invertedColor)
+    .bp-button-{$name}
+        color: $color
+
+        .bp-button-background
+            background: rgba(rgb($color), .14)
+        .bp-button-ripple
+            background: rgba(rgb($color), .28)
+
+        &.bp-button-elevated
+            mat-elevation(5)
+            background: $color
+            color: $invertedColor
+            .bp-button-ripple
+                background: rgba(rgb($invertedColor), .28)
+            &:active
+                mat-elevation(3)
+
+_bp-button-styled('primary', $primary-color, #fff)
+_bp-button-styled('accent', $accent-color, #fff)
+
+@keyframes bp-ripple
+    0%
+        opacity: 1
+        width: 20%
+        padding-bottom: 20%
+
+    25%
+        width: 70%
+        padding-bottom: 70%
+
+    100%
+        width: 200%
+        padding-bottom: 200%
+        opacity: 0
