@@ -8,4 +8,5 @@ RUN npm install
 COPY . .
 
 EXPOSE 8080
-CMD npm run serve
+EXPOSE 443
+CMD npm run server
