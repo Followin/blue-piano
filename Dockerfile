@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 8080
 EXPOSE 443
-CMD npm run server
+CMD node scripts/http-server
