@@ -12,7 +12,7 @@ const listener = http2.createSecureServer({
 
 const server = hapi.Server({
   listener,
-  host: 'localhost',
+  host: '0.0.0.0',
   port: 8080,
   tls: true
 });
