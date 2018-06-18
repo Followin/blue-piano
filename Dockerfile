@@ -1,4 +1,4 @@
-FROM node:10.4.1
+FROM node:alpine
 
 WORKDIR /usr/src/app
 
@@ -8,6 +8,7 @@ RUN npm install
 COPY . .
 
 RUN npm run build
+RUN node scripts/zip.js
 
 EXPOSE 8080
 CMD node scripts/http-server.js

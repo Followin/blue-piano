@@ -9,10 +9,11 @@ const path = require('path');
 const glob = require('glob');
 
 (async function () {
-  await glob("/**/*.+(js|css)", {
+  await glob("/**/*.js", {
     root: path.resolve(__dirname, "../dist")
   }, async (er, files) => {
     for (let file of files) {
+      await gzipFile(file);
       await brotliFile(file);
     }
   });
@@ -27,14 +28,13 @@ async function gzipFile(file) {
 }
 
 function brotliFile(file) {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     const read = fs.readFileSync(file);
     const result = brotli.compress(read);
 
     const write = fs.createWriteStream(file + ".br");
-    write.write(result);
-    write.end();
-
-    res();
+    write.end(result, 'utf-8', () => {
+      res();
+    });
   });
 }

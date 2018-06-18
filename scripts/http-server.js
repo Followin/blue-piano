@@ -17,11 +17,36 @@ async function start() {
     path: '/{filename*}',
     handler: async (request, h) => {
       const filename = request.params.filename;
+      const brFilename = filename + '.br';
+      const gzFilename = filename + '.gz';
 
-      if (/\..*$/.test(filename) && await exists('../dist/' + filename)) {
-        return h.file(resolve('../dist/' + filename));
+      console.log('requested: ', request.path);
+
+      if (!/\..*$/.test(filename)) {
+        console.log('returning index');
+        return h.file(resolve('index.html'));
+      }
+
+      if (acceptsEncoding(request.headers, 'br') && await exists(brFilename)) {
+        console.log('serving brotli\'ed file instead', brFilename);
+        return h.file(resolve(brFilename))
+          .header('content-encoding', 'br')
+          .header('content-type', 'application/javascript');
+      }
+
+      if (acceptsEncoding(request.headers, 'gzip') && await exists(gzFilename)) {
+        console.log('serving gzip\'ed file instead', gzFilename);
+
+        return h.file(resolve(gzFilename))
+          .header('content-encoding', 'gzip')
+          .header('content-type', 'application/javascript');
+      }
+
+      if (await exists(filename)) {
+        console.log('serving original file', filename);
+        return h.file(resolve(filename));
       } else {
-        return h.file(resolve('../dist/' + 'index.html'));
+        console.error('file not found ', filename);
       }
     }
   });
@@ -38,10 +63,18 @@ async function start() {
 
 start();
 
+function acceptsEncoding(headers, encoding) {
+  return headers['accept-encoding'].split(',').map(x => x.trim()).includes(encoding);
+}
+
 async function exists(path) {
-   return await promisify(fs.stat)(resolve(path));
+  try {
+    return await promisify(fs.stat)(resolve(path));
+  } catch {
+    return false;
+  }
 }
 
 function resolve(filePath) {
-  return path.resolve(__dirname, filePath);
+  return path.resolve(__dirname, '../dist/', filePath);
 }
