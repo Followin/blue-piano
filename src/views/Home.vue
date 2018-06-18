@@ -1,5 +1,6 @@
 <template>
     <div class="home">
+        Version: 0.0.1
     </div>
 </template>
 
