@@ -1,0 +1,12 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ["build", "-t", "gcr.io/blue-piano/$REPO_NAME:$COMMIT_SHA", "."]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ["push", "gcr.io/blue-piano/$REPO_NAME:$COMMIT_SHA"]
+- name: 'gcr.io/cloud-builders/kubectl'
+  args:
+  - set
+  - image
+  - deployment
+  - blue-piano
+  - github-followin-blue-piano=gcr.io/blue-piano/$REPO_NAME:$COMMIT_SHA
