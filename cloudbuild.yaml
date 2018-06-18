@@ -10,3 +10,6 @@ steps:
   - deployment
   - blue-piano
   - github-followin-blue-piano=gcr.io/blue-piano/$REPO_NAME:$COMMIT_SHA
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=blue-cluster'
