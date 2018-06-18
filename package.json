@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "server": "node scripts/server.js"
   },
   "dependencies": {
     "progressbar.js": "^1.0.1",
@@ -21,6 +22,8 @@
     "@vue/cli-service": "^3.0.0-beta.15",
     "@vue/eslint-config-prettier": "^3.0.0-beta.15",
     "glob": "^7.1.2",
+    "hapi": "^17.5.1",
+    "inert": "^5.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue-template-compiler": "^2.5.16"
